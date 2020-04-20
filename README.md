@@ -28,7 +28,7 @@ packageProject(
   INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include
   # should match the target's INSTALL_INTERFACE include directory
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
-  # comma separated list of all dependencies
+  # semicolon separated list of the project's dependencies
   DEPENDENCIES ""
 )
 ```
