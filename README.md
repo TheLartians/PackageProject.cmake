@@ -14,7 +14,7 @@ See [here](https://github.com/TheLartians/ModernCppStarter/blob/master/CMakeList
 CPMAddPackage(
   NAME PackageProject.cmake
   GITHUB_REPOSITORY TheLartians/PackageProject.cmake
-  VERSION 1.1
+  VERSION 1.2
 )
 
 packageProject(
