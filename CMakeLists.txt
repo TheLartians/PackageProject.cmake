@@ -8,7 +8,7 @@ set(
 
 function(packageProject)
 
-  cmake_parse_arguments(PROJECT "" "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR" "" ${ARGN})
+  cmake_parse_arguments(PROJECT "" "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;DEPENDENCIES" "" ${ARGN})
 
   include(CMakePackageConfigHelpers)
 

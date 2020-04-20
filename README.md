@@ -14,7 +14,7 @@ See [here](https://github.com/TheLartians/ModernCppStarter/blob/master/CMakeList
 CPMAddPackage(
   NAME PackageProject.cmake
   GITHUB_REPOSITORY TheLartians/PackageProject.cmake
-  VERSION 1.0
+  VERSION 1.1
 )
 
 packageProject(
@@ -28,6 +28,8 @@ packageProject(
   INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include
   # should match the target's INSTALL_INTERFACE include directory
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
+  # comma separated list of all dependencies
+  DEPENDENCIES ""
 )
 ```
 
