@@ -1,4 +1,4 @@
-![Ubuntu](https://github.com/TheLartians/PackageProject.cmake/workflows/Ubuntu/badge.svg)
+![Test](https://github.com/TheLartians/PackageProject.cmake/workflows/Test/badge.svg)
 
 # PackageProject.cmake
 
