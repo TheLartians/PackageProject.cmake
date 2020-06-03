@@ -4,5 +4,5 @@
 
 int main() {
   dependencyFunction();
-  return DEPENDENCY_VERSION == std::string("1.2.3");
+  return DEPENDENCY_VERSION == std::string("1.2.3") ? 0 : 1;
 }
