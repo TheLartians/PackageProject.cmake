@@ -29,7 +29,7 @@ jobs:
     - name: install dependency
       run: |
         cmake -Htest/dependency -Bbuild/dependency
-        cmake --build build/dependency --target install
+        sudo cmake --build build/dependency --target install
 
     - name: test installed build
       run: |
