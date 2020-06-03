@@ -1,3 +1,5 @@
+![Test](https://github.com/TheLartians/PackageProject.cmake/workflows/Test/badge.svg)
+
 # PackageProject.cmake
 
 Creating installable CMake scripts always requires a large amount of boilerplate code to get things working.
