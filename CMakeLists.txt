@@ -39,7 +39,7 @@ function(packageProject)
     endif()
     target_include_directories(${PROJECT_NAME} ${VISIBILITY} "$<BUILD_INTERFACE:${PROJECT_VERSION_INCLUDE_DIR}>")
     install(
-      DIRECTORY ${PROJECT_VERSION_INCLUDE_DIR}
+      DIRECTORY ${PROJECT_VERSION_INCLUDE_DIR}/
       DESTINATION ${PROJECT_INCLUDE_DESTINATION}
     )
   endif()
