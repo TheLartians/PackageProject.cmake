@@ -1,0 +1,38 @@
+name: Ubuntu
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  CTEST_OUTPUT_ON_FAILURE: 1
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    
+    - name: test local build
+      run: |
+        cmake -Htest -Bbuild/local
+        cmake --build build/local 
+        ./build/local/test
+
+    - name: install dependency
+      run: |
+        cmake -Htest/dependency -Bbuild/dependency
+        cmake --build build/dependency --target install
+
+    - name: test installed build
+      run: |
+        cmake -Htest -Bbuild/installed -DTEST_INSTALLED_VERSION=1
+        cmake --build build/installed 
+        ./build/installed/test
