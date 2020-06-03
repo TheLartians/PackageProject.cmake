@@ -57,4 +57,5 @@ function(packageProject)
     DESTINATION ${PROJECT_INCLUDE_DESTINATION}
   )
 
+  set(${PROJECT_NAME}_VERSION ${PROJECT_VERSION} CACHE INTERNAL "")
 endfunction()
