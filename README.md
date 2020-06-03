@@ -28,7 +28,9 @@ packageProject(
   INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include
   # should match the target's INSTALL_INTERFACE include directory
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
-  # semicolon separated list of the project's dependencies
+  # (optional) create a header containing the version info
+  VERSION_HEADER "${PROJECT_NAME}/version.h"
+  # (optional) semicolon separated list of the project's dependencies
   DEPENDENCIES ""
 )
 ```
