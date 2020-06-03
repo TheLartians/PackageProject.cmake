@@ -5,10 +5,10 @@ project(dependency
   LANGUAGES CXX
 )
 
-add_library(dependency INTERFACE)
+add_library(dependency source/dependency.cpp)
 
 target_include_directories(dependency
-  INTERFACE
+  PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
 )

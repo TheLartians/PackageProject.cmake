@@ -24,7 +24,7 @@ function(packageProject)
   endif()
 
   if (DEFINED PROJECT_VERSION_HEADER)
-    set(PROJECT_VERSION_INCLUDE_DIR ${PROJECT_BINARY_DIR}/packageProjectInclude)
+    set(PROJECT_VERSION_INCLUDE_DIR ${PROJECT_BINARY_DIR}/PackageProjectInclude)
     string(TOUPPER ${PROJECT_NAME} UPPERCASE_PROJECT_NAME)
     configure_file(
       ${PACKAGE_PROJECT_ROOT_PATH}/version.h.in
