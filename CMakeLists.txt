@@ -1,20 +1,47 @@
 
 set(
-  PACKAGE_PROJECT_CONFIG_FILE_PATH
-  "${CMAKE_CURRENT_LIST_DIR}/Config.cmake.in"
+  PACKAGE_PROJECT_ROOT_PATH
+  "${CMAKE_CURRENT_LIST_DIR}"
   CACHE INTERNAL
-  "The config template for the packageProject script"
+  "The path to the PackageProject directory"
 )
 
 function(packageProject)
   include(CMakePackageConfigHelpers)
   include(GNUInstallDirs)
 
-  cmake_parse_arguments(PROJECT "" "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY" "DEPENDENCIES" ${ARGN})
+  cmake_parse_arguments(
+    PROJECT
+    ""
+    "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY;VERSION_HEADER"
+    "DEPENDENCIES"
+    ${ARGN}
+  )
 
   # handle default arguments
   if (NOT DEFINED PROJECT_COMPATIBILITY)
     set(PROJECT_COMPATIBILITY AnyNewerVersion)
+  endif()
+
+  if (DEFINED PROJECT_VERSION_HEADER)
+    set(PROJECT_VERSION_INCLUDE_DIR ${PROJECT_BINARY_DIR}/PackageProjectInclude)
+    string(TOUPPER ${PROJECT_NAME} UPPERCASE_PROJECT_NAME)
+    configure_file(
+      ${PACKAGE_PROJECT_ROOT_PATH}/version.h.in
+      ${PROJECT_VERSION_INCLUDE_DIR}/${PROJECT_VERSION_HEADER}
+      @ONLY
+    )
+    get_target_property(target_type ${PROJECT_NAME} TYPE)
+    if (target_type STREQUAL "INTERFACE_LIBRARY")
+      set(VISIBILITY INTERFACE)
+    else()
+      set(VISIBILITY PUBLIC)
+    endif()
+    target_include_directories(${PROJECT_NAME} ${VISIBILITY} "$<BUILD_INTERFACE:${PROJECT_VERSION_INCLUDE_DIR}>")
+    install(
+      DIRECTORY ${PROJECT_VERSION_INCLUDE_DIR}/
+      DESTINATION ${PROJECT_INCLUDE_DESTINATION}
+    )
   endif()
 
   write_basic_package_version_file(
@@ -34,7 +61,7 @@ function(packageProject)
   )
 
   configure_package_config_file(
-    ${PACKAGE_PROJECT_CONFIG_FILE_PATH}
+    ${PACKAGE_PROJECT_ROOT_PATH}/Config.cmake.in
     "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
     INSTALL_DESTINATION lib/cmake/${PROJECT_NAME}-${PROJECT_VERSION}
   )
