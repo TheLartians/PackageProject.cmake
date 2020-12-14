@@ -69,7 +69,7 @@ function(packageProject)
   install(
     EXPORT ${PROJECT_NAME}Targets
     DESTINATION lib/cmake/${PROJECT_NAME}-${PROJECT_VERSION}
-    NAMESPACE ${PROJECT_LIBRARY_NAMESPACE}
+    NAMESPACE ${PROJECT_LIBRARY_NAMESPACE}::
   )
 
   install(
