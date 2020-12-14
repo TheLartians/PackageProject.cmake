@@ -22,17 +22,19 @@ jobs:
     
     - name: test local build
       run: |
-        cmake -Htest -Bbuild/local
+        cmake -S test -B build/local
         cmake --build build/local 
         ./build/local/test
 
     - name: install dependency
       run: |
-        cmake -Htest/dependency -Bbuild/dependency
+        cmake -S test/dependency -B build/dependency
         sudo cmake --build build/dependency --target install
+        cmake -S test/dependency2 -B build/dependency2
+        sudo cmake --build build/dependency2 --target install
 
     - name: test installed build
       run: |
-        cmake -Htest -Bbuild/installed -DTEST_INSTALLED_VERSION=1
+        cmake -S test -B build/installed -D TEST_INSTALLED_VERSION=1
         cmake --build build/installed 
         ./build/installed/test

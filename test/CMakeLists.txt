@@ -9,9 +9,11 @@ project(PackageProjectTest
 
 if (TEST_INSTALLED_VERSION)
   find_package(dependency 1.2.3 REQUIRED)
+  find_package(ns::dependency2 4.5.6 REQUIRED)
 else()
   add_subdirectory(dependency)
+  add_subdirectory(dependency2)
 endif()
 
 add_executable(test main.cpp)
-target_link_libraries(test dependency)
+target_link_libraries(test dependency ns::dependency2)
