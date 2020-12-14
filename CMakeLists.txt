@@ -23,6 +23,11 @@ function(packageProject)
     set(PROJECT_COMPATIBILITY AnyNewerVersion)
   endif()
 
+  # we wanto to automatically add :: to our namespace, so only append if a namespace was given in the first place
+  if (DEFINED PROJECT_LIBRARY_NAMESPACE)
+    set(PROJECT_LIBRARY_NAMESPACE ${PROJECT_LIBRARY_NAMESPACE}::)
+  endif()
+
   if (DEFINED PROJECT_VERSION_HEADER)
     set(PROJECT_VERSION_INCLUDE_DIR ${PROJECT_BINARY_DIR}/PackageProjectInclude)
     string(TOUPPER ${PROJECT_NAME} UPPERCASE_PROJECT_NAME)
@@ -69,7 +74,7 @@ function(packageProject)
   install(
     EXPORT ${PROJECT_NAME}Targets
     DESTINATION lib/cmake/${PROJECT_NAME}-${PROJECT_VERSION}
-    NAMESPACE ${PROJECT_LIBRARY_NAMESPACE}::
+    NAMESPACE ${PROJECT_LIBRARY_NAMESPACE}
   )
 
   install(
