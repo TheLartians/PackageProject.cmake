@@ -9,7 +9,7 @@ project(PackageProjectTest
 
 if (TEST_INSTALLED_VERSION)
   find_package(dependency 1.2.3 REQUIRED)
-  find_package(ns::dependency2 4.5.6 REQUIRED)
+  find_package(dependency2 4.5.6 REQUIRED)
 else()
   add_subdirectory(dependency)
   add_subdirectory(dependency2)
