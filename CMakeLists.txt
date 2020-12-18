@@ -13,7 +13,7 @@ function(packageProject)
   cmake_parse_arguments(
     PROJECT
     ""
-    "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY;VERSION_HEADER"
+    "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY;VERSION_HEADER;NAMESPACE"
     "DEPENDENCIES"
     ${ARGN}
   )
@@ -21,6 +21,13 @@ function(packageProject)
   # handle default arguments
   if (NOT DEFINED PROJECT_COMPATIBILITY)
     set(PROJECT_COMPATIBILITY AnyNewerVersion)
+  endif()
+
+  # we wanto to automatically add :: to our namespace, so only append if a namespace was given in the first place
+  # we also provide an alias to ensure that local and installed versions have the same name
+  if (DEFINED PROJECT_NAMESPACE)
+    set(PROJECT_NAMESPACE ${PROJECT_NAMESPACE}::)
+    add_library(${PROJECT_NAMESPACE}${PROJECT_NAME} ALIAS ${PROJECT_NAME})
   endif()
 
   if (DEFINED PROJECT_VERSION_HEADER)
@@ -69,6 +76,7 @@ function(packageProject)
   install(
     EXPORT ${PROJECT_NAME}Targets
     DESTINATION lib/cmake/${PROJECT_NAME}-${PROJECT_VERSION}
+    NAMESPACE ${PROJECT_NAMESPACE}
   )
 
   install(

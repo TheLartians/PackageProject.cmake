@@ -35,6 +35,8 @@ packageProject(
   # (optional) create a header containing the version info
   # note that the path should be lowercase 
   VERSION_HEADER "${PROJECT_NAME}/version.h"
+  # (optional) install your library with a namespace (do NOT add extra '::')
+  NAMESPACE ${PROJECT_NAMESPACE}
 )
 ```
 
