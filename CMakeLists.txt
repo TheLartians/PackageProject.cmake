@@ -24,8 +24,10 @@ function(packageProject)
   endif()
 
   # we wanto to automatically add :: to our namespace, so only append if a namespace was given in the first place
+  # we also provide an alias to ensure that local and installed versions have the same name
   if (DEFINED PROJECT_NAMESPACE)
     set(PROJECT_NAMESPACE ${PROJECT_NAMESPACE}::)
+    add_library(${PROJECT_NAMESPACE}${PROJECT_NAME} ALIAS ${PROJECT_NAME})
   endif()
 
   if (DEFINED PROJECT_VERSION_HEADER)

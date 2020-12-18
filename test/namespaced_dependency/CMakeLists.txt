@@ -7,7 +7,8 @@ project(namespaced_dependency
 
 set(PROJECT_NAMESPACE "ns")
 add_library(${PROJECT_NAME} source/namespaced_dependency.cpp)
-add_library(${PROJECT_NAMESPACE}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+# the alias ${PROJECT_NAMESPACE}::${PROJECT_NAME} is automatically provided by PackageProject.cmake
+# if we use the `NAMESPACE` parameter
 
 target_include_directories(namespaced_dependency
   PUBLIC
