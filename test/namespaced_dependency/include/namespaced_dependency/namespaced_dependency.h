@@ -4,6 +4,6 @@
 
 namespace ns {
 
-	void dependencyFunction2();
+	void namespacedDependencyFunction();
 
 }

@@ -13,7 +13,7 @@ function(packageProject)
   cmake_parse_arguments(
     PROJECT
     ""
-    "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY;VERSION_HEADER;LIBRARY_NAMESPACE"
+    "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY;VERSION_HEADER;NAMESPACE"
     "DEPENDENCIES"
     ${ARGN}
   )
@@ -24,8 +24,8 @@ function(packageProject)
   endif()
 
   # we wanto to automatically add :: to our namespace, so only append if a namespace was given in the first place
-  if (DEFINED PROJECT_LIBRARY_NAMESPACE)
-    set(PROJECT_LIBRARY_NAMESPACE ${PROJECT_LIBRARY_NAMESPACE}::)
+  if (DEFINED PROJECT_NAMESPACE)
+    set(PROJECT_NAMESPACE ${PROJECT_NAMESPACE}::)
   endif()
 
   if (DEFINED PROJECT_VERSION_HEADER)
@@ -74,7 +74,7 @@ function(packageProject)
   install(
     EXPORT ${PROJECT_NAME}Targets
     DESTINATION lib/cmake/${PROJECT_NAME}-${PROJECT_VERSION}
-    NAMESPACE ${PROJECT_LIBRARY_NAMESPACE}
+    NAMESPACE ${PROJECT_NAMESPACE}
   )
 
   install(

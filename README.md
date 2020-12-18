@@ -36,7 +36,7 @@ packageProject(
   # note that the path should be lowercase 
   VERSION_HEADER "${PROJECT_NAME}/version.h"
   # (optional) install your library with a namespace (do NOT add extra '::')
-  LIBRARY_NAMESPACE ${MY_LIBRARY_NAMESPACE}
+  NAMESPACE ${PROJECT_NAMESPACE}
 )
 ```
 

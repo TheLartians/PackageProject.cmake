@@ -10,7 +10,6 @@ on:
 
 env:
   CTEST_OUTPUT_ON_FAILURE: 1
-  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
   build:
@@ -18,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     
     - name: test local build
       run: |
@@ -26,12 +25,12 @@ jobs:
         cmake --build build/local 
         ./build/local/test
 
-    - name: install dependency
+    - name: install dependencies
       run: |
         cmake -S test/dependency -B build/dependency
         sudo cmake --build build/dependency --target install
-        cmake -S test/dependency2 -B build/dependency2
-        sudo cmake --build build/dependency2 --target install
+        cmake -S test/namespaced_dependency -B build/namespaced_dependency
+        sudo cmake --build build/namespaced_dependency --target install
 
     - name: test installed build
       run: |
