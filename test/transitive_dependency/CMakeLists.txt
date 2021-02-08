@@ -14,9 +14,16 @@ CPMAddPackage(
   OPTIONS "FMT_INSTALL YES"
 )
 
+CPMAddPackage(
+  NAME cxxopts
+  GITHUB_REPOSITORY jarro2783/cxxopts
+  VERSION 2.2.0
+  OPTIONS "CXXOPTS_BUILD_EXAMPLES Off" "CXXOPTS_BUILD_TESTS Off"
+)
+
 add_library(${PROJECT_NAME} source/transitive_dependency.cpp)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
-target_link_libraries(${PROJECT_NAME} fmt)
+target_link_libraries(${PROJECT_NAME} fmt cxxopts)
 
 target_include_directories(transitive_dependency
   PUBLIC
@@ -34,5 +41,5 @@ packageProject(
   INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
   VERSION_HEADER "transitive_dependency/version.h"
-  DEPENDENCIES "fmt 7.1.3"
+  DEPENDENCIES "fmt 7.1.3;cxxopts 2.2.0"
 )
