@@ -10,30 +10,29 @@ on:
 
 env:
   CTEST_OUTPUT_ON_FAILURE: 1
+  CPM_SOURCE_CACHE: ${{ github.workspace }}/cpm_modules
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: test local build
-      run: |
-        cmake -S test -B build/local
-        cmake --build build/local 
-        ./build/local/test
+      - uses: actions/checkout@v2
 
-    - name: install dependencies
-      run: |
-        cmake -S test/dependency -B build/dependency
-        sudo cmake --build build/dependency --target install
-        cmake -S test/namespaced_dependency -B build/namespaced_dependency
-        sudo cmake --build build/namespaced_dependency --target install
+      - uses: actions/cache@v2
+        with:
+          path: "**/cpm_modules"
+          key: ${{ github.workflow }}-cpm-modules-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
 
-    - name: test installed build
-      run: |
-        cmake -S test -B build/installed -D TEST_INSTALLED_VERSION=1
-        cmake --build build/installed 
-        ./build/installed/test
+      - name: test and install local build
+        run: |
+          cmake -S test -B build/local
+          cmake --build build/local 
+          ./build/local/test
+          sudo cmake --build build/local --target install
+
+      - name: test installed build
+        run: |
+          cmake -S test -B build/installed -D TEST_INSTALLED_VERSION=1
+          cmake --build build/installed 
+          ./build/installed/test

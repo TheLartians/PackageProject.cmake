@@ -16,7 +16,7 @@ See [here](https://github.com/TheLartians/ModernCppStarter/blob/master/CMakeList
 CPMAddPackage(
   NAME PackageProject.cmake
   GITHUB_REPOSITORY TheLartians/PackageProject.cmake
-  VERSION 1.4
+  VERSION 1.4.1
 )
 
 packageProject(
@@ -31,7 +31,7 @@ packageProject(
   # should match the target's INSTALL_INTERFACE include directory
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
   # semicolon separated list of the project's dependencies
-  DEPENDENCIES ""
+  DEPENDENCIES "fmt 7.1.3;cxxopts 2.2.0"
   # (optional) create a header containing the version info
   # note that the path should be lowercase 
   VERSION_HEADER "${PROJECT_NAME}/version.h"
