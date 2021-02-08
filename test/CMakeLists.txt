@@ -10,10 +10,17 @@ project(PackageProjectTest
 if (TEST_INSTALLED_VERSION)
   find_package(dependency 1.2.3 REQUIRED)
   find_package(namespaced_dependency 4.5.6 REQUIRED)
+  find_package(transitive_dependency 7.8.9 REQUIRED)
 else()
   add_subdirectory(dependency)
   add_subdirectory(namespaced_dependency)
+  add_subdirectory(transitive_dependency)
 endif()
 
 add_executable(test main.cpp)
-target_link_libraries(test dependency ns::namespaced_dependency)
+target_link_libraries(test 
+  dependency 
+  ns::namespaced_dependency 
+  transitive_dependency::transitive_dependency
+)
+
