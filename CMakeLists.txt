@@ -18,6 +18,7 @@ function(packageProject)
     ${ARGN}
   )
 
+  # TBD: in review ...
   if("${PROJECT_INCLUDE_DESTINATION}" STREQUAL "include/${PROJECT_NAME}-${PROJECT_VERSION}")
     set(VERSION_POSTFIX -${PROJECT_VERSION})
   endif()
@@ -43,14 +44,11 @@ function(packageProject)
       @ONLY
     )
 
-    # TODO: not clear to me why? CK
     get_target_property(target_type ${PROJECT_NAME} TYPE)
     if(target_type STREQUAL "INTERFACE_LIBRARY")
       set(VISIBILITY INTERFACE)
-      message(STATUS "target ${PROJECT_NAME} is INTERFACE_LIBRARY")
     else()
-      set(VISIBILITY PUBLIC)    # TODO WHY not PRIVATE? Check this! CK
-      message(STATUS "target ${PROJECT_NAME} is NO INTERFACE_LIBRARY")
+      set(VISIBILITY PUBLIC)
     endif()
     target_include_directories(${PROJECT_NAME} ${VISIBILITY} "$<BUILD_INTERFACE:${PROJECT_VERSION_INCLUDE_DIR}>")
     install(
