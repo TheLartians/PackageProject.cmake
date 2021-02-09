@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 option(TEST_INSTALLED_VERSION "Test the version found by find_package" OFF)
 
-project(PackageProjectTest 
+project(PackageProjectTest
   VERSION 1.0
   LANGUAGES CXX
 )
@@ -19,9 +19,9 @@ endif()
 
 add_executable(test main.cpp)
 
-target_link_libraries(test 
-  dependency 
-  ns::namespaced_dependency 
+target_link_libraries(test
+  dependency
+  ns::namespaced_dependency
   transitive_dependency::transitive_dependency
 )
 

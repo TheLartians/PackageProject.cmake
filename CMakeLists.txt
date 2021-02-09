@@ -12,14 +12,14 @@ function(packageProject)
 
   cmake_parse_arguments(
     PROJECT
-    ""
+    "NO_VERSION_SUFFIX"
     "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY;VERSION_HEADER;NAMESPACE"
     "DEPENDENCIES"
     ${ARGN}
   )
 
-  # TBD: in review ...
-  if("${PROJECT_INCLUDE_DESTINATION}" STREQUAL "include/${PROJECT_NAME}-${PROJECT_VERSION}")
+  # TBD: in review ...  if("${PROJECT_INCLUDE_DESTINATION}" STREQUAL "include/${PROJECT_NAME}-${PROJECT_VERSION}")
+  if(NOT DEFINED PROJECT_NO_VERSION_SUFFIX)
     set(VERSION_POSTFIX -${PROJECT_VERSION})
   endif()
 
@@ -30,7 +30,7 @@ function(packageProject)
 
   # we wanto to automatically add :: to our namespace, so only append if a namespace was given in the first place
   # we also provide an alias to ensure that local and installed versions have the same name
-  if (DEFINED PROJECT_NAMESPACE)
+  if(DEFINED PROJECT_NAMESPACE)
     set(PROJECT_NAMESPACE ${PROJECT_NAMESPACE}::)
     add_library(${PROJECT_NAMESPACE}${PROJECT_NAME} ALIAS ${PROJECT_NAME})
   endif()
