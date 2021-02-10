@@ -18,7 +18,6 @@ function(packageProject)
     ${ARGN}
   )
 
-  # TBD: in review ...  if("${PROJECT_INCLUDE_DESTINATION}" STREQUAL "include/${PROJECT_NAME}-${PROJECT_VERSION}")
   if(NOT DEFINED PROJECT_NO_VERSION_SUFFIX)
     set(VERSION_POSTFIX -${PROJECT_VERSION})
   endif()
