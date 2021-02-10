@@ -37,7 +37,10 @@ packageProject(
   VERSION_HEADER "${PROJECT_NAME}/version.h"
   # (optional) install your library with a namespace (do NOT add extra '::')
   NAMESPACE ${PROJECT_NAMESPACE}
-  # (optional) disable the versioning of install destinations
+  # (optional) define the project's version compatibility, defaults to `AnyNewerVersion`
+  # supported values: `AnyNewerVersion|SameMajorVersion|SameMinorVersion|ExactVersion`
+  COMPATIBILITY AnyNewerVersion
+  # (optional) flag to disable the versioning of install destinations
   NO_VERSION_SUFFIX
 )
 ```
