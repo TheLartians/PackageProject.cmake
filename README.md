@@ -33,10 +33,15 @@ packageProject(
   # semicolon separated list of the project's dependencies
   DEPENDENCIES "fmt 7.1.3;cxxopts 2.2.0"
   # (optional) create a header containing the version info
-  # note that the path should be lowercase 
+  # note that the path should be lowercase
   VERSION_HEADER "${PROJECT_NAME}/version.h"
   # (optional) install your library with a namespace (do NOT add extra '::')
   NAMESPACE ${PROJECT_NAMESPACE}
+  # (optional) define the project's version compatibility, defaults to `AnyNewerVersion`
+  # supported values: `AnyNewerVersion|SameMajorVersion|SameMinorVersion|ExactVersion`
+  COMPATIBILITY AnyNewerVersion
+  # (optional) flag to disable the versioning of install destinations
+  NO_VERSION_SUFFIX
 )
 ```
 
