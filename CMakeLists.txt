@@ -1,9 +1,6 @@
-
-set(
-  PACKAGE_PROJECT_ROOT_PATH
-  "${CMAKE_CURRENT_LIST_DIR}"
-  CACHE INTERNAL
-  "The path to the PackageProject directory"
+set(PACKAGE_PROJECT_ROOT_PATH
+    "${CMAKE_CURRENT_LIST_DIR}"
+    CACHE INTERNAL "The path to the PackageProject directory"
 )
 
 function(packageProject)
@@ -11,11 +8,9 @@ function(packageProject)
   include(GNUInstallDirs)
 
   cmake_parse_arguments(
-    PROJECT
-    "NO_VERSION_SUFFIX"
+    PROJECT "NO_VERSION_SUFFIX"
     "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY;VERSION_HEADER;NAMESPACE"
-    "DEPENDENCIES"
-    ${ARGN}
+    "DEPENDENCIES" ${ARGN}
   )
 
   if(DEFINED PROJECT_NO_VERSION_SUFFIX)
@@ -29,8 +24,9 @@ function(packageProject)
     set(PROJECT_COMPATIBILITY AnyNewerVersion)
   endif()
 
-  # we wanto to automatically add :: to our namespace, so only append if a namespace was given in the first place
-  # we also provide an alias to ensure that local and installed versions have the same name
+  # we wanto to automatically add :: to our namespace, so only append if a namespace was given in
+  # the first place we also provide an alias to ensure that local and installed versions have the
+  # same name
   if(DEFINED PROJECT_NAMESPACE)
     set(PROJECT_NAMESPACE ${PROJECT_NAMESPACE}::)
     add_library(${PROJECT_NAMESPACE}${PROJECT_NAME} ALIAS ${PROJECT_NAME})
@@ -41,8 +37,7 @@ function(packageProject)
     string(TOUPPER ${PROJECT_NAME} UPPERCASE_PROJECT_NAME)
     configure_file(
       ${PACKAGE_PROJECT_ROOT_PATH}/version.h.in
-      ${PROJECT_VERSION_INCLUDE_DIR}/${PROJECT_VERSION_HEADER}
-      @ONLY
+      ${PROJECT_VERSION_INCLUDE_DIR}/${PROJECT_VERSION_HEADER} @ONLY
     )
 
     get_target_property(target_type ${PROJECT_NAME} TYPE)
@@ -51,11 +46,10 @@ function(packageProject)
     else()
       set(VISIBILITY PUBLIC)
     endif()
-    target_include_directories(${PROJECT_NAME} ${VISIBILITY} "$<BUILD_INTERFACE:${PROJECT_VERSION_INCLUDE_DIR}>")
-    install(
-      DIRECTORY ${PROJECT_VERSION_INCLUDE_DIR}/
-      DESTINATION ${PROJECT_INCLUDE_DESTINATION}
+    target_include_directories(
+      ${PROJECT_NAME} ${VISIBILITY} "$<BUILD_INTERFACE:${PROJECT_VERSION_INCLUDE_DIR}>"
     )
+    install(DIRECTORY ${PROJECT_VERSION_INCLUDE_DIR}/ DESTINATION ${PROJECT_INCLUDE_DESTINATION})
   endif()
 
   write_basic_package_version_file(
@@ -67,16 +61,19 @@ function(packageProject)
   install(
     TARGETS ${PROJECT_NAME}
     EXPORT ${PROJECT_NAME}Targets
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}${_PROJECT_VERSION_SUFFIX} COMPONENT Runtime
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}${_PROJECT_VERSION_SUFFIX} COMPONENT Development
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/${PROJECT_NAME}${_PROJECT_VERSION_SUFFIX} COMPONENT Runtime
-    BUNDLE DESTINATION ${CMAKE_INSTALL_BINDIR}/${PROJECT_NAME}${_PROJECT_VERSION_SUFFIX} COMPONENT Runtime
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}${_PROJECT_VERSION_SUFFIX}
+            COMPONENT Runtime
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}${_PROJECT_VERSION_SUFFIX}
+            COMPONENT Development
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/${PROJECT_NAME}${_PROJECT_VERSION_SUFFIX}
+            COMPONENT Runtime
+    BUNDLE DESTINATION ${CMAKE_INSTALL_BINDIR}/${PROJECT_NAME}${_PROJECT_VERSION_SUFFIX}
+           COMPONENT Runtime
     PUBLIC_HEADER DESTINATION ${PROJECT_INCLUDE_DESTINATION} COMPONENT Development
   )
 
   configure_package_config_file(
-    ${PACKAGE_PROJECT_ROOT_PATH}/Config.cmake.in
-    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    ${PACKAGE_PROJECT_ROOT_PATH}/Config.cmake.in "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
     INSTALL_DESTINATION lib/cmake/${PROJECT_NAME}${_PROJECT_VERSION_SUFFIX}
   )
 
@@ -86,18 +83,15 @@ function(packageProject)
     NAMESPACE ${PROJECT_NAMESPACE}
   )
 
-  install(
-    FILES
-      "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-      "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-    DESTINATION
-      lib/cmake/${PROJECT_NAME}${_PROJECT_VERSION_SUFFIX}
+  install(FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+                "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+          DESTINATION lib/cmake/${PROJECT_NAME}${_PROJECT_VERSION_SUFFIX}
   )
 
-  install(
-    DIRECTORY ${PROJECT_INCLUDE_DIR}/
-    DESTINATION ${PROJECT_INCLUDE_DESTINATION}
-  )
+  install(DIRECTORY ${PROJECT_INCLUDE_DIR}/ DESTINATION ${PROJECT_INCLUDE_DESTINATION})
 
-  set(${PROJECT_NAME}_VERSION ${PROJECT_VERSION} CACHE INTERNAL "")
+  set(${PROJECT_NAME}_VERSION
+      ${PROJECT_VERSION}
+      CACHE INTERNAL ""
+  )
 endfunction()

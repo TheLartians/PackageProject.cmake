@@ -2,6 +2,6 @@
 
 namespace ns {
 
-	void namespacedDependencyFunction();
+  void namespacedDependencyFunction();
 
 }

@@ -4,6 +4,7 @@
 #include <namespaced_dependency/version.h>
 #include <transitive_dependency/transitive_dependency.h>
 #include <transitive_dependency/version.h>
+
 #include <string>
 
 int main() {

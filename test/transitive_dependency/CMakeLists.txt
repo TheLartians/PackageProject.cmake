@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
-project(transitive_dependency
+project(
+  transitive_dependency
   VERSION 7.8.9
   LANGUAGES CXX
 )
@@ -25,10 +26,9 @@ add_library(${PROJECT_NAME} source/transitive_dependency.cpp)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 target_link_libraries(${PROJECT_NAME} fmt cxxopts)
 
-target_include_directories(transitive_dependency
-  PUBLIC
-    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
+target_include_directories(
+  transitive_dependency PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+                               $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
 )
 
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../.. ${CMAKE_CURRENT_BINARY_DIR}/PackageProject)
