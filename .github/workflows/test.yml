@@ -29,7 +29,7 @@ jobs:
         run: |
           cmake -S test -B build/local
           cmake --build build/local
-          ./build/local/test
+          cmake --build build/local --target test
           sudo cmake --build build/local --target install
 
       - name: test installed build
@@ -37,4 +37,3 @@ jobs:
           cmake -S test -B build/installed -D TEST_INSTALLED_VERSION=1
           cmake --build build/installed
           cmake --build build/installed --target test
-          ./build/installed/main
