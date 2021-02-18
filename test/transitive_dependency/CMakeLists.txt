@@ -6,10 +6,6 @@ project(
   LANGUAGES CXX
 )
 
-# Set default visibility to hidden for all targets
-set(CMAKE_CXX_VISIBILITY_PRESET hidden)
-set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
-
 include(cmake/CPM.cmake)
 
 CPMAddPackage(
@@ -25,6 +21,10 @@ CPMAddPackage(
   VERSION 2.2.0
   OPTIONS "CXXOPTS_BUILD_EXAMPLES Off" "CXXOPTS_BUILD_TESTS Off"
 )
+
+# Set default visibility to hidden for all targets
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
 # option(BUILD_SHARED_LIBS "Create shared libraries" YES)
 add_library(${PROJECT_NAME} SHARED source/transitive_dependency.cpp)
