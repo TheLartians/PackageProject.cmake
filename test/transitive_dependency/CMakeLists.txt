@@ -1,10 +1,14 @@
-cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.14...3.20)
 
 project(
   transitive_dependency
   VERSION 7.8.9
   LANGUAGES CXX
 )
+
+# Set default visibility to hidden for all targets
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
 include(cmake/CPM.cmake)
 
@@ -22,16 +26,17 @@ CPMAddPackage(
   OPTIONS "CXXOPTS_BUILD_EXAMPLES Off" "CXXOPTS_BUILD_TESTS Off"
 )
 
-add_library(${PROJECT_NAME} source/transitive_dependency.cpp)
+# option(BUILD_SHARED_LIBS "Create shared libraries" YES)
+add_library(${PROJECT_NAME} SHARED source/transitive_dependency.cpp)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
-target_link_libraries(${PROJECT_NAME} fmt cxxopts)
+target_link_libraries(${PROJECT_NAME} PUBLIC fmt cxxopts)
 
 target_include_directories(
   transitive_dependency PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
                                $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
 )
 
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../.. ${CMAKE_CURRENT_BINARY_DIR}/PackageProject)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../.. PackageProject)
 
 packageProject(
   NAME ${PROJECT_NAME}
@@ -40,6 +45,6 @@ packageProject(
   BINARY_DIR ${PROJECT_BINARY_DIR}
   INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
-  VERSION_HEADER "transitive_dependency/version.h"
+  VERSION_HEADER "transitive_dependency/version.h" EXPORT_HEADER "transitive_dependency/export.h"
   DEPENDENCIES "fmt 7.1.3;cxxopts 2.2.0"
 )

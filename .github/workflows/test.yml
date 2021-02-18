@@ -1,3 +1,4 @@
+---
 name: Test
 
 on:
@@ -27,12 +28,13 @@ jobs:
       - name: test and install local build
         run: |
           cmake -S test -B build/local
-          cmake --build build/local 
+          cmake --build build/local
           ./build/local/test
           sudo cmake --build build/local --target install
 
       - name: test installed build
         run: |
           cmake -S test -B build/installed -D TEST_INSTALLED_VERSION=1
-          cmake --build build/installed 
-          ./build/installed/test
+          cmake --build build/installed
+          cmake --build build/installed --target test
+          ./build/installed/main
