@@ -8,6 +8,14 @@ project(
 
 include(cmake/CPM.cmake)
 
+option(BUILD_SHARED_LIBS "Create shared libraries" NO)
+
+if(BUILD_SHARED_LIBS)
+  # Set default visibility to hidden for all targets
+  set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+  set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
+endif()
+
 CPMAddPackage(
   NAME fmt
   GIT_TAG 7.1.3
@@ -22,12 +30,7 @@ CPMAddPackage(
   OPTIONS "CXXOPTS_BUILD_EXAMPLES Off" "CXXOPTS_BUILD_TESTS Off"
 )
 
-# Set default visibility to hidden for all targets
-set(CMAKE_CXX_VISIBILITY_PRESET hidden)
-set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
-
-# option(BUILD_SHARED_LIBS "Create shared libraries" YES)
-add_library(${PROJECT_NAME} SHARED source/transitive_dependency.cpp)
+add_library(${PROJECT_NAME} source/transitive_dependency.cpp)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 target_link_libraries(${PROJECT_NAME} PUBLIC fmt cxxopts)
 
@@ -45,6 +48,7 @@ packageProject(
   BINARY_DIR ${PROJECT_BINARY_DIR}
   INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
-  VERSION_HEADER "transitive_dependency/version.h" EXPORT_HEADER "transitive_dependency/export.h"
+  VERSION_HEADER "transitive_dependency/version.h"
+  EXPORT_HEADER "transitive_dependency/export.h"
   DEPENDENCIES "fmt 7.1.3;cxxopts 2.2.0"
 )
