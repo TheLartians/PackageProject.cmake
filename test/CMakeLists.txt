@@ -8,6 +8,11 @@ project(
   LANGUAGES CXX
 )
 
+# build all dynamic libraries and executables together at bin directory
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
 if(TEST_INSTALLED_VERSION)
   find_package(dependency 1.2.3 REQUIRED)
   find_package(namespaced_dependency 4.5.6 REQUIRED)

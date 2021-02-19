@@ -8,14 +8,6 @@ project(
 
 include(cmake/CPM.cmake)
 
-option(BUILD_SHARED_LIBS "Create shared libraries" NO)
-
-if(BUILD_SHARED_LIBS)
-  # Set default visibility to hidden for all targets
-  set(CMAKE_CXX_VISIBILITY_PRESET hidden)
-  set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
-endif()
-
 CPMAddPackage(
   NAME fmt
   GIT_TAG 7.1.3
@@ -30,9 +22,16 @@ CPMAddPackage(
   OPTIONS "CXXOPTS_BUILD_EXAMPLES Off" "CXXOPTS_BUILD_TESTS Off"
 )
 
+option(BUILD_SHARED_LIBS "Create shared libraries" YES)
+if(BUILD_SHARED_LIBS)
+  # Set default visibility to hidden for all targets
+  set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+  set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
+endif()
+
 add_library(${PROJECT_NAME} source/transitive_dependency.cpp)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
-target_link_libraries(${PROJECT_NAME} PUBLIC fmt cxxopts)
+target_link_libraries(${PROJECT_NAME} PUBLIC fmt::fmt-header-only cxxopts)
 
 target_include_directories(
   transitive_dependency PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>

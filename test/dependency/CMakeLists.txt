@@ -6,7 +6,7 @@ project(
   LANGUAGES CXX
 )
 
-add_library(dependency source/dependency.cpp)
+add_library(dependency STATIC source/dependency.cpp)
 
 target_include_directories(
   dependency PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
