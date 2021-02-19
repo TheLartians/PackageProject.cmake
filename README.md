@@ -16,7 +16,7 @@ See [here](https://github.com/TheLartians/ModernCppStarter/blob/master/CMakeList
 CPMAddPackage(
   NAME PackageProject.cmake
   GITHUB_REPOSITORY TheLartians/PackageProject.cmake
-  VERSION 1.4.1
+  VERSION 1.5.0
 )
 
 packageProject(
@@ -33,9 +33,11 @@ packageProject(
   # semicolon separated list of the project's dependencies
   DEPENDENCIES "fmt 7.1.3;cxxopts 2.2.0"
   # (optional) create a header containing the version info
-  # note that the path should be lowercase
+  # Note: that the path to headers should be lowercase
   VERSION_HEADER "${PROJECT_NAME}/version.h"
-  # (optional) install your library with a namespace (do NOT add extra '::')
+  # (optional) create a export header using GenerateExportHeader module
+  EXPORT_HEADER "${PROJECT_NAME}/export.h"
+  # (optional) install your library with a namespace (Note: do NOT add extra '::')
   NAMESPACE ${PROJECT_NAMESPACE}
   # (optional) define the project's version compatibility, defaults to `AnyNewerVersion`
   # supported values: `AnyNewerVersion|SameMajorVersion|SameMinorVersion|ExactVersion`
