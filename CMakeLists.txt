@@ -15,36 +15,39 @@ function(packageProject)
     ${ARGN}
   )
 
+  # For the <options> keywords, these will always be defined, to TRUE or FALSE, whether the option
+  # is in the argument list or not.
   if(PROJECT_NO_VERSION_SUFFIX)
     unset(PROJECT_VERSION_SUFFIX)
   else()
     set(PROJECT_VERSION_SUFFIX -${PROJECT_VERSION})
   endif()
 
-  # handle default arguments
-  if(NOT PROJECT_COMPATIBILITY)
+  # handle default arguments: These variables will then hold the respective value from the argument
+  # list or be undefined if the associated one_value_keyword could not be found.
+  if(NOT DEFINED PROJECT_COMPATIBILITY)
     set(PROJECT_COMPATIBILITY AnyNewerVersion)
   endif()
 
   # we wanto to automatically add :: to our namespace, so only append if a namespace was given in
   # the first place we also provide an alias to ensure that local and installed versions have the
   # same name
-  if(PROJECT_NAMESPACE)
+  if(DEFINED PROJECT_NAMESPACE)
     set(PROJECT_NAMESPACE ${PROJECT_NAMESPACE}::)
     add_library(${PROJECT_NAMESPACE}${PROJECT_NAME} ALIAS ${PROJECT_NAME})
   endif()
 
-  if(PROJECT_VERSION_HEADER OR PROJECT_EXPORT_HEADER)
+  if(DEFINED PROJECT_VERSION_HEADER OR DEFINED PROJECT_EXPORT_HEADER)
     set(PROJECT_VERSION_INCLUDE_DIR ${PROJECT_BINARY_DIR}/PackageProjectInclude)
 
-    if(PROJECT_EXPORT_HEADER)
+    if(DEFINED PROJECT_EXPORT_HEADER)
       include(GenerateExportHeader)
       generate_export_header(
         ${PROJECT_NAME} EXPORT_FILE_NAME ${PROJECT_VERSION_INCLUDE_DIR}/${PROJECT_EXPORT_HEADER}
       )
     endif()
 
-    if(PROJECT_VERSION_HEADER)
+    if(DEFINED PROJECT_VERSION_HEADER)
       string(TOUPPER ${PROJECT_NAME} UPPERCASE_PROJECT_NAME)
       configure_file(
         ${PACKAGE_PROJECT_ROOT_PATH}/version.h.in
