@@ -8,37 +8,52 @@ function(packageProject)
   include(GNUInstallDirs)
 
   cmake_parse_arguments(
-    PROJECT "NO_VERSION_SUFFIX"
-    "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY;VERSION_HEADER;NAMESPACE"
-    "DEPENDENCIES" ${ARGN}
+    PROJECT
+    ""
+    "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY;EXPORT_HEADER;VERSION_HEADER;NAMESPACE;DISABLE_VERSION_SUFFIX"
+    "DEPENDENCIES"
+    ${ARGN}
   )
 
-  if(PROJECT_NO_VERSION_SUFFIX)
+  # optional feature: TRUE or FALSE or UNDEFINED! These variables will then hold the respective
+  # value from the argument list or be undefined if the associated one_value_keyword could not be
+  # found.
+  if(DEFINED PROJECT_DISABLE_VERSION_SUFFIX AND PROJECT_DISABLE_VERSION_SUFFIX)
     unset(PROJECT_VERSION_SUFFIX)
   else()
     set(PROJECT_VERSION_SUFFIX -${PROJECT_VERSION})
   endif()
 
-  # handle default arguments
+  # handle default arguments:
   if(NOT DEFINED PROJECT_COMPATIBILITY)
     set(PROJECT_COMPATIBILITY AnyNewerVersion)
   endif()
 
-  # we wanto to automatically add :: to our namespace, so only append if a namespace was given in
-  # the first place we also provide an alias to ensure that local and installed versions have the
-  # same name
+  # we want to automatically add :: to our namespace, so only append if a namespace was given in the
+  # first place we also provide an alias to ensure that local and installed versions have the same
+  # name
   if(DEFINED PROJECT_NAMESPACE)
     set(PROJECT_NAMESPACE ${PROJECT_NAMESPACE}::)
     add_library(${PROJECT_NAMESPACE}${PROJECT_NAME} ALIAS ${PROJECT_NAME})
   endif()
 
-  if(DEFINED PROJECT_VERSION_HEADER)
+  if(DEFINED PROJECT_VERSION_HEADER OR DEFINED PROJECT_EXPORT_HEADER)
     set(PROJECT_VERSION_INCLUDE_DIR ${PROJECT_BINARY_DIR}/PackageProjectInclude)
-    string(TOUPPER ${PROJECT_NAME} UPPERCASE_PROJECT_NAME)
-    configure_file(
-      ${PACKAGE_PROJECT_ROOT_PATH}/version.h.in
-      ${PROJECT_VERSION_INCLUDE_DIR}/${PROJECT_VERSION_HEADER} @ONLY
-    )
+
+    if(DEFINED PROJECT_EXPORT_HEADER)
+      include(GenerateExportHeader)
+      generate_export_header(
+        ${PROJECT_NAME} EXPORT_FILE_NAME ${PROJECT_VERSION_INCLUDE_DIR}/${PROJECT_EXPORT_HEADER}
+      )
+    endif()
+
+    if(DEFINED PROJECT_VERSION_HEADER)
+      string(TOUPPER ${PROJECT_NAME} UPPERCASE_PROJECT_NAME)
+      configure_file(
+        ${PACKAGE_PROJECT_ROOT_PATH}/version.h.in
+        ${PROJECT_VERSION_INCLUDE_DIR}/${PROJECT_VERSION_HEADER} @ONLY
+      )
+    endif()
 
     get_target_property(target_type ${PROJECT_NAME} TYPE)
     if(target_type STREQUAL "INTERFACE_LIBRARY")
@@ -58,13 +73,6 @@ function(packageProject)
     COMPATIBILITY ${PROJECT_COMPATIBILITY}
   )
 
-  message(
-    STATUS "LIBRARY DESTINATION=${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}"
-  )
-  message(
-    STATUS "RUNTIME DESTINATION=${CMAKE_INSTALL_BINDIR}/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}"
-  )
-  message(STATUS "PUBLIC_HEADER DESTINATION=${PROJECT_INCLUDE_DESTINATION}")
   install(
     TARGETS ${PROJECT_NAME}
     EXPORT ${PROJECT_NAME}Targets
@@ -79,7 +87,6 @@ function(packageProject)
     PUBLIC_HEADER DESTINATION ${PROJECT_INCLUDE_DESTINATION} COMPONENT Development
   )
 
-  message(STATUS "CMAKE INSTALL_DESTINATION=lib/cmake/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}")
   configure_package_config_file(
     ${PACKAGE_PROJECT_ROOT_PATH}/Config.cmake.in "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
     INSTALL_DESTINATION lib/cmake/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}
