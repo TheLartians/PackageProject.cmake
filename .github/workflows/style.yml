@@ -5,9 +5,11 @@ on:
   push:
     branches:
       - master
+      - develop
   pull_request:
     branches:
       - master
+      - develop
 
 jobs:
   style:
@@ -15,15 +17,15 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v1
+      - uses: actions/checkout@v1
 
-    - name: Install format dependencies
-      run: |
-        brew install clang-format
-        pip3 install cmake_format==0.6.11 pyyaml
+      - name: Install format dependencies
+        run: |
+          brew install clang-format
+          pip3 install cmake_format==0.6.11 pyyaml
 
-    - name: configure
-      run: cmake -S test/style -B build/style
+      - name: configure
+        run: cmake -S test/style -B build/style
 
-    - name: check style
-      run: cmake --build build/style --target check-format
+      - name: check style
+        run: cmake --build build/style --target check-format
