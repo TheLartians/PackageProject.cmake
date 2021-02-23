@@ -8,25 +8,30 @@ function(packageProject)
   include(GNUInstallDirs)
 
   cmake_parse_arguments(
-    PROJECT "NO_VERSION_SUFFIX"
-    "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY;VERSION_HEADER;NAMESPACE"
-    "DEPENDENCIES" ${ARGN}
+    PROJECT
+    ""
+    "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY;VERSION_HEADER;NAMESPACE;DISABLE_VERSION_SUFFIX"
+    "DEPENDENCIES"
+    ${ARGN}
   )
 
-  if(DEFINED PROJECT_NO_VERSION_SUFFIX)
+  # optional feature: TRUE or FALSE or UNDEFINED! These variables will then hold the respective
+  # value from the argument list or be undefined if the associated one_value_keyword could not be
+  # found.
+  if(PROJECT_DISABLE_VERSION_SUFFIX)
     unset(PROJECT_VERSION_SUFFIX)
   else()
     set(PROJECT_VERSION_SUFFIX -${PROJECT_VERSION})
   endif()
 
-  # handle default arguments
+  # handle default arguments:
   if(NOT DEFINED PROJECT_COMPATIBILITY)
     set(PROJECT_COMPATIBILITY AnyNewerVersion)
   endif()
 
-  # we wanto to automatically add :: to our namespace, so only append if a namespace was given in
-  # the first place we also provide an alias to ensure that local and installed versions have the
-  # same name
+  # we want to automatically add :: to our namespace, so only append if a namespace was given in the
+  # first place we also provide an alias to ensure that local and installed versions have the same
+  # name
   if(DEFINED PROJECT_NAMESPACE)
     set(PROJECT_NAMESPACE ${PROJECT_NAMESPACE}::)
     add_library(${PROJECT_NAMESPACE}${PROJECT_NAME} ALIAS ${PROJECT_NAME})
@@ -34,6 +39,7 @@ function(packageProject)
 
   if(DEFINED PROJECT_VERSION_HEADER)
     set(PROJECT_VERSION_INCLUDE_DIR ${PROJECT_BINARY_DIR}/PackageProjectInclude)
+
     string(TOUPPER ${PROJECT_NAME} UPPERCASE_PROJECT_NAME)
     configure_file(
       ${PACKAGE_PROJECT_ROOT_PATH}/version.h.in
