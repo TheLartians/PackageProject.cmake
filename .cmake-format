@@ -43,7 +43,7 @@ parse:
     packageproject:
       pargs:
         nargs: '*'
-        flags: [NO_VERSION_SUFFIX]
+        flags: []
       spelling: packageProject
       kwargs:
         NAME: 1
@@ -55,4 +55,5 @@ parse:
         COMPATIBILITY: 1
         VERSION_HEADER: 1
         EXPORT_HEADER: 1
+        DISABLE_VERSION_SUFFIX: 1
         DEPENDENCIES: +

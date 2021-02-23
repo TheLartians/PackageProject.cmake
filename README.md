@@ -16,7 +16,7 @@ See [here](https://github.com/TheLartians/ModernCppStarter/blob/master/CMakeList
 CPMAddPackage(
   NAME PackageProject.cmake
   GITHUB_REPOSITORY TheLartians/PackageProject.cmake
-  VERSION 1.5.0
+  VERSION 1.5.1
 )
 
 packageProject(
@@ -42,8 +42,8 @@ packageProject(
   # (optional) define the project's version compatibility, defaults to `AnyNewerVersion`
   # supported values: `AnyNewerVersion|SameMajorVersion|SameMinorVersion|ExactVersion`
   COMPATIBILITY AnyNewerVersion
-  # (optional) flag to disable the versioning of install destinations
-  NO_VERSION_SUFFIX
+  # (optional) option to disable the versioning of install destinations
+  DISABLE_VERSION_SUFFIX YES
 )
 ```
 
