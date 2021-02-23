@@ -18,7 +18,7 @@ function(packageProject)
   # optional feature: TRUE or FALSE or UNDEFINED! These variables will then hold the respective
   # value from the argument list or be undefined if the associated one_value_keyword could not be
   # found.
-  if(DEFINED PROJECT_DISABLE_VERSION_SUFFIX AND PROJECT_DISABLE_VERSION_SUFFIX)
+  if(PROJECT_DISABLE_VERSION_SUFFIX)
     unset(PROJECT_VERSION_SUFFIX)
   else()
     set(PROJECT_VERSION_SUFFIX -${PROJECT_VERSION})
