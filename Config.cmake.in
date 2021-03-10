@@ -10,4 +10,6 @@ foreach(dependency ${SEPARATE_DEPENDENCIES})
 endforeach()
 
 include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
-check_required_components("@PROJECT_NAME@")
+if(@CHECK_REQUIRED_COMPONENTS@)
+  check_required_components("@PROJECT_NAME@")
+endif()

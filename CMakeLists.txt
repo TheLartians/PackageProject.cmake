@@ -26,9 +26,9 @@ function(packageProject)
 
   # handle default arguments:
   if(PROJECT_DISABLE_CHECK_REQUIRED_COMPONENTS)
-    set(NO_CHECK_REQUIRED_COMPONENTS_MACRO NO_CHECK_REQUIRED_COMPONENTS_MACRO)
+    set(CHECK_REQUIRED_COMPONENTS NO)
   else()
-    unset(NO_CHECK_REQUIRED_COMPONENTS_MACRO)
+    set(CHECK_REQUIRED_COMPONENTS YES)
   endif()
 
   if(NOT DEFINED PROJECT_COMPATIBILITY)
@@ -96,7 +96,6 @@ function(packageProject)
   configure_package_config_file(
     ${PACKAGE_PROJECT_ROOT_PATH}/Config.cmake.in "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
     INSTALL_DESTINATION lib/cmake/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}
-    ${NO_CHECK_REQUIRED_COMPONENTS_MACRO}
   )
 
   install(
