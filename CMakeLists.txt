@@ -10,7 +10,7 @@ function(packageProject)
   cmake_parse_arguments(
     PROJECT
     ""
-    "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY;EXPORT_HEADER;VERSION_HEADER;NAMESPACE;DISABLE_VERSION_SUFFIX"
+    "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY;EXPORT_HEADER;VERSION_HEADER;NAMESPACE;DISABLE_VERSION_SUFFIX;DISABLE_CHECK_REQUIRED_COMPONENTS"
     "DEPENDENCIES"
     ${ARGN}
   )
@@ -18,13 +18,19 @@ function(packageProject)
   # optional feature: TRUE or FALSE or UNDEFINED! These variables will then hold the respective
   # value from the argument list or be undefined if the associated one_value_keyword could not be
   # found.
-  if(DEFINED PROJECT_DISABLE_VERSION_SUFFIX AND PROJECT_DISABLE_VERSION_SUFFIX)
+  if(PROJECT_DISABLE_VERSION_SUFFIX)
     unset(PROJECT_VERSION_SUFFIX)
   else()
     set(PROJECT_VERSION_SUFFIX -${PROJECT_VERSION})
   endif()
 
   # handle default arguments:
+  if(PROJECT_DISABLE_CHECK_REQUIRED_COMPONENTS)
+    set(NO_CHECK_REQUIRED_COMPONENTS_MACRO NO_CHECK_REQUIRED_COMPONENTS_MACRO)
+  else()
+    unset(NO_CHECK_REQUIRED_COMPONENTS_MACRO)
+  endif()
+
   if(NOT DEFINED PROJECT_COMPATIBILITY)
     set(PROJECT_COMPATIBILITY AnyNewerVersion)
   endif()
@@ -90,6 +96,7 @@ function(packageProject)
   configure_package_config_file(
     ${PACKAGE_PROJECT_ROOT_PATH}/Config.cmake.in "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
     INSTALL_DESTINATION lib/cmake/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}
+    ${NO_CHECK_REQUIRED_COMPONENTS_MACRO}
   )
 
   install(
