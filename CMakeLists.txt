@@ -87,14 +87,21 @@ function(packageProject)
     DESTINATION "${PROJECT_INCLUDE_DESTINATION}"
   )
 
+  set("${PROJECT_NAME}_INSTALL_CMAKEDIR"
+      "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}"
+      CACHE PATH "CMake package config location relative to the install prefix"
+  )
+
+  mark_as_advanced("${PROJECT_NAME}_INSTALL_CMAKEDIR")
+
   configure_package_config_file(
     ${PACKAGE_PROJECT_ROOT_PATH}/Config.cmake.in "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-    INSTALL_DESTINATION lib/cmake/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}
+    INSTALL_DESTINATION "${${PROJECT_NAME}_INSTALL_CMAKEDIR}"
   )
 
   install(
     EXPORT ${PROJECT_NAME}Targets
-    DESTINATION lib/cmake/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}
+    DESTINATION "${${PROJECT_NAME}_INSTALL_CMAKEDIR}"
     NAMESPACE ${PROJECT_NAMESPACE}
     COMPONENT "${PROJECT_NAME}_Development"
   )
@@ -102,7 +109,7 @@ function(packageProject)
   install(
     FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
           "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-    DESTINATION lib/cmake/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}
+    DESTINATION "${${PROJECT_NAME}_INSTALL_CMAKEDIR}"
     COMPONENT "${PROJECT_NAME}_Development"
   )
 
