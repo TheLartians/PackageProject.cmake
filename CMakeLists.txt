@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.14)
+
 set(PACKAGE_PROJECT_ROOT_PATH
     "${CMAKE_CURRENT_LIST_DIR}"
     CACHE INTERNAL "The path to the PackageProject directory"
