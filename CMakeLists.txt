@@ -12,7 +12,7 @@ function(packageProject)
   cmake_parse_arguments(
     PROJECT
     ""
-    "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY;VERSION_HEADER;NAMESPACE;DISABLE_VERSION_SUFFIX"
+    "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY;VERSION_HEADER;NAMESPACE;DISABLE_VERSION_SUFFIX;ARCH_INDEPENDENT"
     "DEPENDENCIES"
     ${ARGN}
   )
@@ -64,10 +64,22 @@ function(packageProject)
     )
   endif()
 
+  set(wbpvf_extra_args "")
+  if(NOT DEFINED PROJECT_ARCH_INDEPENDENT)
+    get_target_property(target_type "${PROJECT_NAME}" TYPE)
+    if(TYPE STREQUAL "INTERFACE_LIBRARY")
+      set(PROJECT_ARCH_INDEPENDENT YES)
+    endif()
+  endif()
+
+  if(PROJECT_ARCH_INDEPENDENT)
+    set(wbpvf_extra_args ARCH_INDEPENDENT)
+  endif()
+
   write_basic_package_version_file(
     "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
     VERSION ${PROJECT_VERSION}
-    COMPATIBILITY ${PROJECT_COMPATIBILITY}
+    COMPATIBILITY ${PROJECT_COMPATIBILITY} ${wbpvf_extra_args}
   )
 
   install(
