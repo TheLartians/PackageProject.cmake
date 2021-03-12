@@ -57,7 +57,11 @@ function(packageProject)
     target_include_directories(
       ${PROJECT_NAME} ${VISIBILITY} "$<BUILD_INTERFACE:${PROJECT_VERSION_INCLUDE_DIR}>"
     )
-    install(DIRECTORY ${PROJECT_VERSION_INCLUDE_DIR}/ DESTINATION ${PROJECT_INCLUDE_DESTINATION})
+    install(
+      DIRECTORY ${PROJECT_VERSION_INCLUDE_DIR}/
+      DESTINATION ${PROJECT_INCLUDE_DESTINATION}
+      COMPONENT Development
+    )
   endif()
 
   write_basic_package_version_file(
@@ -92,14 +96,21 @@ function(packageProject)
     EXPORT ${PROJECT_NAME}Targets
     DESTINATION lib/cmake/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}
     NAMESPACE ${PROJECT_NAMESPACE}
+    COMPONENT Development
   )
 
-  install(FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-                "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-          DESTINATION lib/cmake/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}
+  install(
+    FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+          "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    DESTINATION lib/cmake/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}
+    COMPONENT Development
   )
 
-  install(DIRECTORY ${PROJECT_INCLUDE_DIR}/ DESTINATION ${PROJECT_INCLUDE_DESTINATION})
+  install(
+    DIRECTORY ${PROJECT_INCLUDE_DIR}/
+    DESTINATION ${PROJECT_INCLUDE_DESTINATION}
+    COMPONENT Development
+  )
 
   set(${PROJECT_NAME}_VERSION
       ${PROJECT_VERSION}
