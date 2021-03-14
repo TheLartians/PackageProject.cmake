@@ -13,7 +13,7 @@ Also the [CPM.cmake](https://github.com/TheLartians/CPM.cmake) script should be 
 See [here](https://github.com/TheLartians/ModernCppStarter/blob/master/CMakeLists.txt) for an example usage.
 
 ```cmake
-CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.5.1")
+CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.6.0")
 
 packageProject(
   # the name of the target to export
