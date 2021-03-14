@@ -38,6 +38,9 @@ packageProject(
   COMPATIBILITY AnyNewerVersion
   # (optional) option to disable the versioning of install destinations
   DISABLE_VERSION_SUFFIX YES
+  # (optional) option to ignore target architecture for package resolution
+  # defaults to YES for header only (i.e. INTERFACE) libraries
+  ARCH_INDEPENDENT YES
 )
 ```
 
