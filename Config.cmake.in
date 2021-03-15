@@ -1,5 +1,3 @@
-@PACKAGE_INIT@
-
 include(CMakeFindDependencyMacro)
 
 string(REGEX MATCHALL "[^;]+" SEPARATE_DEPENDENCIES "@PROJECT_DEPENDENCIES@")
