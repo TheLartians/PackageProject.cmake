@@ -54,4 +54,6 @@ parse:
         BINARY_DIR: 1
         COMPATIBILITY: 1
         VERSION_HEADER: 1
+        EXPORT_HEADER: 1
+        DISABLE_VERSION_SUFFIX: 1
         DEPENDENCIES: +

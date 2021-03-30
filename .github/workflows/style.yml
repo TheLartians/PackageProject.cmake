@@ -1,3 +1,4 @@
+---
 name: Style
 
 on:
@@ -12,17 +13,17 @@ jobs:
   style:
 
     runs-on: macos-latest
-    
+
     steps:
-    - uses: actions/checkout@v1
-    
-    - name: Install format dependencies
-      run: |
-        brew install clang-format
-        pip3 install cmake_format==0.6.11 pyyaml
+      - uses: actions/checkout@v1
 
-    - name: configure
-      run: cmake -Stest/style -Bbuild/style
+      - name: Install format dependencies
+        run: |
+          brew install clang-format
+          pip3 install cmake_format==0.6.13 pyyaml
 
-    - name: check style
-      run: cmake --build build/style --target check-format
+      - name: configure
+        run: cmake -S test/style -B build/style
+
+      - name: check style
+        run: cmake --build build/style --target check-format

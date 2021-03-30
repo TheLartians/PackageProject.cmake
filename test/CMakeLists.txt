@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.14)
 
 option(TEST_INSTALLED_VERSION "Test the version found by find_package" OFF)
 
@@ -18,8 +18,11 @@ else()
   add_subdirectory(transitive_dependency)
 endif()
 
-add_executable(test main.cpp)
+add_executable(main main.cpp)
 
 target_link_libraries(
-  test dependency ns::namespaced_dependency transitive_dependency::transitive_dependency
+  main dependency ns::namespaced_dependency transitive_dependency::transitive_dependency
 )
+
+enable_testing()
+add_test(NAME test COMMAND main)
