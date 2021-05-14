@@ -49,6 +49,14 @@ function(packageProject)
     endif()
 
     if(DEFINED PROJECT_VERSION_HEADER)
+      string(REPLACE "." ";" VERSION_LIST ${VERSION})
+      list(POP_FRONT ${VERSION_LIST} 
+        PROJECT_VERSION_MAJOR
+        PROJECT_VERSION_MINOR
+        PROJECT_VERSION_PATCH
+        PROJECT_VERSION_TWEAK
+      )
+
       string(TOUPPER ${PROJECT_NAME} UPPERCASE_PROJECT_NAME)
       configure_file(
         ${PACKAGE_PROJECT_ROOT_PATH}/version.h.in
