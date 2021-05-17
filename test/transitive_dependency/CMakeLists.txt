@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 
 project(
   transitive_dependency
-  VERSION 7.8.9
+  VERSION 7.8.9.21948124
   LANGUAGES CXX
 )
 
