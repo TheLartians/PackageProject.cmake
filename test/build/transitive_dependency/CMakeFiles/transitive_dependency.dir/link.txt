@@ -1,0 +1,1 @@
+/usr/bin/g++ -fPIC -shared -Wl,-soname,libtransitive_dependency.so -o libtransitive_dependency.so CMakeFiles/transitive_dependency.dir/source/transitive_dependency.cpp.o 
