@@ -1,3 +1,0 @@
-repository='https://github.com/jarro2783/cxxopts.git'
-module=''
-tag='origin'

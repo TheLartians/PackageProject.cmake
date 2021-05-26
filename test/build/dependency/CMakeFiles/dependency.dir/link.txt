@@ -1,2 +1,0 @@
-/usr/bin/ar qc libdependency.a CMakeFiles/dependency.dir/source/dependency.cpp.o
-/usr/bin/ranlib libdependency.a

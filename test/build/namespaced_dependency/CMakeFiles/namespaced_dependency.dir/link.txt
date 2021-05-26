@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnamespaced_dependency.a CMakeFiles/namespaced_dependency.dir/source/namespaced_dependency.cpp.o
-/usr/bin/ranlib libnamespaced_dependency.a
