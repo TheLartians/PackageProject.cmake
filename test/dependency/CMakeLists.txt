@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 
 project(
   dependency
-  VERSION 1.2.3
+  VERSION 1.2
   LANGUAGES CXX
 )
 

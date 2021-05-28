@@ -49,11 +49,14 @@ function(packageProject)
     endif()
 
     if(DEFINED PROJECT_VERSION_HEADER)
-      string(REPLACE "." ";" VERSION_LIST "${PROJECT_VERSION}")
-
-      list(POP_FRONT VERSION_LIST PROJECT_VERSION_MAJOR PROJECT_VERSION_MINOR PROJECT_VERSION_PATCH
-           PROJECT_VERSION_TWEAK
+      string(REGEX MATCH "^([0-9]+)(\\.([0-9]+))?(\\.([0-9]+))?(\\.([0-9]+))?$" _
+                   "${PROJECT_VERSION}"
       )
+
+      set(PROJECT_VERSION_MAJOR ${CMAKE_MATCH_1})
+      set(PROJECT_VERSION_MINOR ${CMAKE_MATCH_3})
+      set(PROJECT_VERSION_PATCH ${CMAKE_MATCH_5})
+      set(PROJECT_VERSION_TWEAK ${CMAKE_MATCH_7})
 
       if(NOT DEFINED PROJECT_VERSION_MAJOR)
         set(PROJECT_VERSION_MAJOR "0")
