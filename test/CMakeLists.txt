@@ -9,7 +9,7 @@ project(
 )
 
 if(TEST_INSTALLED_VERSION)
-  find_package(dependency 1.2.3 REQUIRED)
+  find_package(dependency 1.2 REQUIRED)
   find_package(namespaced_dependency 4.5.6 REQUIRED)
   find_package(transitive_dependency 7.8.9 REQUIRED)
 else()
