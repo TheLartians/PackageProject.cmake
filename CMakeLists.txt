@@ -49,6 +49,12 @@ function(packageProject)
     endif()
 
     if(DEFINED PROJECT_VERSION_HEADER)
+      # clear previous matches
+      unset(CMAKE_MATCH_1)
+      unset(CMAKE_MATCH_3)
+      unset(CMAKE_MATCH_5)
+      unset(CMAKE_MATCH_7)
+
       string(REGEX MATCH "^([0-9]+)(\\.([0-9]+))?(\\.([0-9]+))?(\\.([0-9]+))?$" _
                    "${PROJECT_VERSION}"
       )
