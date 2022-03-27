@@ -51,6 +51,7 @@ parse:
         NAMESPACE: 1
         INCLUDE_DIR: 1
         INCLUDE_DESTINATION: 1
+        INCLUDE_HEADER_PATTERN: 1
         BINARY_DIR: 1
         COMPATIBILITY: 1
         VERSION_HEADER: 1
