@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.14...3.22)
 
 project(
   namespaced_dependency
@@ -26,5 +26,6 @@ packageProject(
   INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
   VERSION_HEADER "namespaced_dependency/version.h"
+  INCLUDE_HEADER_PATTERN "*.h"
   DEPENDENCIES ""
 )
