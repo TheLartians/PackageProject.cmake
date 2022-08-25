@@ -1,3 +1,5 @@
+#include <namespaced_dependency/namespaced_dependency.h>
+
 #include <namespaced_dependency/version.h>
 
 #include <iostream>

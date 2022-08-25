@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14...3.22)
+cmake_minimum_required(VERSION 3.14...3.24)
 
 project(
   namespaced_dependency
@@ -8,6 +8,16 @@ project(
 
 set(PROJECT_NAMESPACE "ns")
 add_library(${PROJECT_NAME} STATIC source/namespaced_dependency.cpp)
+
+if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.23.0")
+  # required in CMake 3.23 and more
+  set(CMAKE_VERIFY_INTERFACE_HEADER_SETS ON)
+  target_sources(
+    ${PROJECT_NAME} PUBLIC FILE_SET HEADERS BASE_DIRS include FILES
+                           include/namespaced_dependency/namespaced_dependency.h
+  )
+endif()
+
 # the alias ${PROJECT_NAMESPACE}::${PROJECT_NAME} is automatically provided by PackageProject.cmake
 # if we use the `NAMESPACE` parameter
 
