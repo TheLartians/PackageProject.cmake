@@ -119,7 +119,6 @@ function(packageProject)
   )
 
   if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.23.0")
-    # required in CMake 3.23 and more
     set(FILE_SET_ARGS "FILE_SET" "HEADERS")
   endif()
 
@@ -138,7 +137,8 @@ function(packageProject)
     PUBLIC_HEADER DESTINATION ${PROJECT_INCLUDE_DESTINATION} COMPONENT "${PROJECT_NAME}_Development"
     INCLUDES
     DESTINATION "${PROJECT_INCLUDE_DESTINATION}"
-    # TODO ${FILE_SET_ARGS}
+    # NOTE: this may be only required in CMake 3.23 and more:
+    ${FILE_SET_ARGS}
   )
 
   set("${PROJECT_NAME}_INSTALL_CMAKEDIR"
