@@ -5,6 +5,8 @@
 Creating installable CMake scripts always requires a large amount of boilerplate code to get things working.
 This small script should simplify the CMake packaging process into a single, easy-to-use command.
 
+PackageProject.cmake has been tested with CMake v3.18.4.
+
 ## Usage
 
 To create an installable target for your current project, add the following to your CMakeLists.txt.

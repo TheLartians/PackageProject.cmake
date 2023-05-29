@@ -19,7 +19,7 @@ jobs:
       - name: Setup cmake
         uses: jwlawson/actions-setup-cmake@v1.13
         with:
-          cmake-version: 3.16.3
+          cmake-version: 3.18.4
 
       - uses: actions/setup-python@v4
         with:
