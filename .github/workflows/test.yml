@@ -1,4 +1,3 @@
----
 name: Test
 
 on:
@@ -14,23 +13,62 @@ env:
   CPM_SOURCE_CACHE: ${{ github.workspace }}/cpm_modules
 
 jobs:
-  build:
+  install:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
-          path: "**/cpm_modules"
+          path: ${{ github.workspace }}/cpm_modules
           key: ${{ github.workflow }}-cpm-modules-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
 
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v1.13
+        with:
+          cmake-version: 3.16.3
+  
       - name: test and install local build
         run: |
           cmake -S test -B build/local
           cmake --build build/local
           cmake --build build/local --target test
-          sudo cmake --build build/local --target install
+          sudo -E cmake --build build/local --target install
+
+      - name: test installed build
+        run: |
+          cmake -S test -B build/installed -D TEST_INSTALLED_VERSION=1
+          cmake --build build/installed
+          cmake --build build/installed --target test
+
+  package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}/cpm_modules
+          key: ${{ github.workflow }}-cpm-modules-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
+
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v1.13
+        with:
+          cmake-version: 3.16.3
+  
+      - run: sudo -E apt update && sudo -E apt install -y cmake
+
+      - name: build for packaging
+        run: |
+          cmake -S test -B build/local -DTEST_CPACK=YES
+          cmake --build build/local
+          cmake --build build/local --target test
+          cd build/local
+          cpack -G DEB .
+          dpkg -I *deb | grep "Maintainer: Foo Bar <foo@bar.local>"
+          sudo -E dpkg -i *.deb
 
       - name: test installed build
         run: |

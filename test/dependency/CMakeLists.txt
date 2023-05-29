@@ -4,6 +4,7 @@ project(
   dependency
   VERSION 1.2
   LANGUAGES CXX
+  DESCRIPTION "A dependency for testing PackageProject.cmake"
 )
 
 add_library(dependency STATIC source/dependency.cpp)
@@ -23,4 +24,5 @@ packageProject(
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
   VERSION_HEADER "dependency/version.h"
   DEPENDENCIES ""
+  CPACK "${TEST_CPACK}"
 )

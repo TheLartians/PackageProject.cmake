@@ -4,6 +4,7 @@ project(
   transitive_dependency
   VERSION 7.8.9.21948124
   LANGUAGES CXX
+  DESCRIPTION "A transitive dependency for testing PackageProject.cmake"
 )
 
 include(cmake/CPM.cmake)
@@ -47,4 +48,5 @@ packageProject(
   VERSION_HEADER "transitive_dependency/version.h"
   EXPORT_HEADER "transitive_dependency/export.h"
   DEPENDENCIES "fmt 7.1.3;cxxopts 2.2.0"
+  CPACK "${TEST_CPACK}"
 )

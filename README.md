@@ -55,8 +55,8 @@ packageProject(
 We provide only the most basic variables for CPack generation, however this might not be enough
 for each and every generator.
 
-For example, Debians' DEB generator needs additionally [`CPACK_DEBIAN_PACKAGE_MAINTAINER`](https://cmake.org/cmake/help/latest/cpack_gen/deb.html#variable:CPACK_DEBIAN_PACKAGE_MAINTAINER)
-or a `CPACK_PACKAGE_CONTACT`:
+For example, Debians' DEB generator needs additionally [`CPACK_DEBIAN_PACKAGE_MAINTAINER`](https://cmake.org/cmake/help/latest/cpack_gen/deb.html#variable:CPACK_DEBIAN_PACKAGE_MAINTAINER) or a `CPACK_PACKAGE_CONTACT`:
+
 ```cmake
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Foo Bar <foo@bar.local>")
 ```
