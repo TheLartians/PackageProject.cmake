@@ -4,6 +4,7 @@ project(
   namespaced_dependency
   VERSION 4.5.6
   LANGUAGES CXX
+  DESCRIPTION "A namespaced dependency for testing PackageProject.cmake"
 )
 
 set(PROJECT_NAMESPACE "ns")
@@ -28,4 +29,5 @@ packageProject(
   VERSION_HEADER "namespaced_dependency/version.h"
   INCLUDE_HEADER_PATTERN "*.h"
   DEPENDENCIES ""
+  CPACK "${TEST_CPACK}"
 )
