@@ -58,8 +58,6 @@ jobs:
         with:
           cmake-version: 3.18.4
   
-      - run: sudo -E apt update && sudo -E apt install -y cmake
-
       - name: build for packaging
         run: |
           cmake -S test -B build/local -DTEST_CPACK=YES
