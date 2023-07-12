@@ -22,8 +22,11 @@ packageProject(
   NAME ${PROJECT_NAME}
   # the version of the target to export
   VERSION ${PROJECT_VERSION}
-  # The list of targets to install. If empty single target ${PROJECT_NAME} is installed.
-  TARGETS_TO_INSTALL ${PROJECT_TARGETS_TO_INSTALL} 
+  # The next to options are mutually exclusive:
+  # Explicit list of targets to install. If empty single target ${PROJECT_NAME} is installed.
+  TARGETS_TO_INSTALL ${PROJECT_TARGETS_TO_INSTALL}
+  # If YES all the targets in the project with TO_INSTALL property set to true will be installed.
+  AUTO_FIND_TARGETS_TO_INSTALL NO
   # a temporary directory to create the config files
   BINARY_DIR ${PROJECT_BINARY_DIR}
   # location of the target's public headers
