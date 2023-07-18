@@ -9,8 +9,8 @@ set(PACKAGE_PROJECT_ROOT_PATH
 define_property(
   TARGET
   PROPERTY TO_INSTALL
-  BRIEF_DOCS ""
-  FULL_DOCS ""
+  BRIEF_DOCS "Marks traget for installation"
+  FULL_DOCS "Marks traget for installation"
 )
 
 # Function to get all project targets recursively
