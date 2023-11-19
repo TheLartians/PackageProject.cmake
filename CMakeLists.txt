@@ -81,6 +81,7 @@ function(packageProject)
       endif()
 
       string(TOUPPER ${PROJECT_NAME} UPPERCASE_PROJECT_NAME)
+      # ensure that the generated macro does not include invalid characters
       string(REGEX REPLACE [^a-zA-Z0-9] _ UPPERCASE_PROJECT_NAME ${UPPERCASE_PROJECT_NAME})
       configure_file(
         ${PACKAGE_PROJECT_ROOT_PATH}/version.h.in
