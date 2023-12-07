@@ -57,4 +57,5 @@ parse:
         VERSION_HEADER: 1
         EXPORT_HEADER: 1
         DISABLE_VERSION_SUFFIX: 1
+        CPACK: 1
         DEPENDENCIES: +

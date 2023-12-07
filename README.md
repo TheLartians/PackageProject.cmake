@@ -5,6 +5,8 @@
 Creating installable CMake scripts always requires a large amount of boilerplate code to get things working.
 This small script should simplify the CMake packaging process into a single, easy-to-use command.
 
+PackageProject.cmake has been tested with CMake v3.18.4.
+
 ## Usage
 
 To create an installable target for your current project, add the following to your CMakeLists.txt.
@@ -45,7 +47,20 @@ packageProject(
   # (optional) option to ignore target architecture for package resolution
   # defaults to YES for header only (i.e. INTERFACE) libraries
   ARCH_INDEPENDENT YES
+  # (optional) option to generate CPack variables
+  CPACK YES
 )
+```
+
+## CPack
+
+We provide only the most basic variables for CPack generation, however this might not be enough
+for each and every generator.
+
+For example, Debians' DEB generator needs additionally [`CPACK_DEBIAN_PACKAGE_MAINTAINER`](https://cmake.org/cmake/help/latest/cpack_gen/deb.html#variable:CPACK_DEBIAN_PACKAGE_MAINTAINER) or a `CPACK_PACKAGE_CONTACT`:
+
+```cmake
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Foo Bar <foo@bar.local>")
 ```
 
 If you need extra functionality feel free to open an issue or a PR.

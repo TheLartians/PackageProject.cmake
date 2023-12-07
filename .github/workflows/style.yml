@@ -1,4 +1,3 @@
----
 name: Style
 
 on:
@@ -12,15 +11,22 @@ on:
 jobs:
   style:
 
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
 
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v1.13
+        with:
+          cmake-version: 3.18.4
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10' 
+          
       - name: Install format dependencies
-        run: |
-          brew install clang-format
-          pip3 install cmake_format==0.6.13 pyyaml
+        run: pip3 install clang-format==14.0.6 cmake_format==0.6.11 pyyaml
 
       - name: configure
         run: cmake -S test/style -B build/style
