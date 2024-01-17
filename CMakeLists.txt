@@ -5,6 +5,28 @@ set(PACKAGE_PROJECT_ROOT_PATH
     CACHE INTERNAL "The path to the PackageProject directory"
 )
 
+# Add custom TO_INSTALL property to the project targets
+define_property(
+  TARGET
+  PROPERTY TO_INSTALL
+  BRIEF_DOCS "Marks traget for installation"
+  FULL_DOCS "Marks traget for installation"
+)
+
+# Function to get all project targets recursively
+function (get_all_cmake_targets out_var current_dir)
+  get_property(targets DIRECTORY ${current_dir} PROPERTY BUILDSYSTEM_TARGETS)
+  get_property(subdirs DIRECTORY ${current_dir} PROPERTY SUBDIRECTORIES)
+
+  foreach(subdir ${subdirs})
+    get_all_cmake_targets(subdir_targets ${subdir})
+    list(APPEND targets ${subdir_targets})
+  endforeach()
+
+  set(${out_var} ${targets} PARENT_SCOPE)
+endfunction()
+
+# Main function
 function(packageProject)
   include(CMakePackageConfigHelpers)
   include(GNUInstallDirs)
@@ -12,8 +34,8 @@ function(packageProject)
   cmake_parse_arguments(
     PROJECT
     ""
-    "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY;EXPORT_HEADER;VERSION_HEADER;NAMESPACE;DISABLE_VERSION_SUFFIX;ARCH_INDEPENDENT;INCLUDE_HEADER_PATTERN;CPACK;"
-    "DEPENDENCIES"
+    "NAME;VERSION;INCLUDE_DIR;INCLUDE_DESTINATION;BINARY_DIR;COMPATIBILITY;EXPORT_HEADER;VERSION_HEADER;NAMESPACE;DISABLE_VERSION_SUFFIX;ARCH_INDEPENDENT;INCLUDE_HEADER_PATTERN;CPACK;AUTO_FIND_TARGETS_TO_INSTALL;"
+    "DEPENDENCIES;TARGETS_TO_INSTALL;"
     ${ARGN}
   )
 
@@ -123,8 +145,30 @@ function(packageProject)
     COMPATIBILITY ${PROJECT_COMPATIBILITY} ${wbpvf_extra_args}
   )
 
+  # Populating the list of targets to install
+  if(PROJECT_AUTO_FIND_TARGETS_TO_INSTALL)
+    message(STATUS "Searching for targets to install...")
+    set(PROJECT_TARGETS_TO_INSTALL "")
+    get_all_cmake_targets(all_targets ${PROJECT_SOURCE_DIR})
+    foreach(target_name ${all_targets})
+      get_target_property(inst ${target_name} TO_INSTALL)
+      if(${inst})
+        list(APPEND PROJECT_TARGETS_TO_INSTALL ${target_name})
+      endif()
+    endforeach()
+  else()
+    if(NOT PROJECT_TARGETS_TO_INSTALL)
+      set(PROJECT_TARGETS_TO_INSTALL ${PROJECT_NAME})
+    endif()
+  endif()
+
+  message(STATUS "Targets to install:")
+  foreach(target_name ${PROJECT_TARGETS_TO_INSTALL})
+    message(STATUS \t${target_name})
+  endforeach()
+
   install(
-    TARGETS ${PROJECT_NAME}
+    TARGETS ${PROJECT_TARGETS_TO_INSTALL}
     EXPORT ${PROJECT_NAME}Targets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}
             COMPONENT "${PROJECT_NAME}_Runtime"
@@ -141,8 +185,8 @@ function(packageProject)
   )
 
   set("${PROJECT_NAME}_INSTALL_CMAKEDIR"
-      "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}"
-      CACHE PATH "CMake package config location relative to the install prefix"
+    "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}"
+    CACHE PATH "CMake package config location relative to the install prefix"
   )
 
   mark_as_advanced("${PROJECT_NAME}_INSTALL_CMAKEDIR")
