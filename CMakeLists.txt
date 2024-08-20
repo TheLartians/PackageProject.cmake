@@ -113,8 +113,10 @@ function(packageProject)
     endif()
   endif()
 
+  set(INSTALL_DIR_FOR_CMAKE_CONFIGS ${CMAKE_INSTALL_LIBDIR})
   if(PROJECT_ARCH_INDEPENDENT)
     set(wbpvf_extra_args ARCH_INDEPENDENT)
+    set(INSTALL_DIR_FOR_CMAKE_CONFIGS ${CMAKE_INSTALL_DATADIR}) # share
   endif()
 
   write_basic_package_version_file(
@@ -141,7 +143,7 @@ function(packageProject)
   )
 
   set("${PROJECT_NAME}_INSTALL_CMAKEDIR"
-      "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}"
+      "${INSTALL_DIR_FOR_CMAKE_CONFIGS}/cmake/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}"
       CACHE PATH "CMake package config location relative to the install prefix"
   )
 
