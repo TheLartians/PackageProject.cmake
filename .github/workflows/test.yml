@@ -34,14 +34,14 @@ jobs:
           cmake -S test -B build/local
           cmake --build build/local
           cmake --build build/local --target test
-          cmake --install build/local --prefix ./install_dir
+          sudo cmake --install build/local
 
       - name: test installed build
         run: |
           sudo apt install fzf ripgrep
-          fzf --walker-root=./install_dir -f "lib /cmake/ /dependencyConfig.cmake" | rg lib | rg cmake | rg Config.cmake
-          fzf --walker-root=./install_dir -f header_onlyConfig.cmake | rg share/cmake
-          cmake -S test -B build/installed -DCMAKE_INSTALL_PREFIX=./install_dir -D TEST_INSTALLED_VERSION=1
+          fzf --walker-root=/usr -f "lib /cmake/ /dependencyConfig.cmake" | rg lib | rg cmake | rg Config.cmake
+          fzf --walker-root=/usr -f header_onlyConfig.cmake | rg share/cmake
+          cmake -S test -B build/installed -D TEST_INSTALLED_VERSION=1
           cmake --build build/installed
           cmake --build build/installed --target test
 
