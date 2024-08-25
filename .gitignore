@@ -1,6 +1,6 @@
 /build
 /out
 /.vs
-.cache/
-compile_commands.json
-install_dir/
+/.cache
+/compile_commands.json
+/install_dir
