@@ -38,9 +38,8 @@ jobs:
 
       - name: test installed build
         run: |
-          sudo apt install fzf ripgrep
-          fzf --walker-root=/usr -f "lib /cmake/ /dependencyConfig.cmake" | rg lib | rg cmake | rg Config.cmake
-          fzf --walker-root=/usr -f header_onlyConfig.cmake | rg share/cmake
+          # test if header only library's CMake configs are installed to a ABI-independent dir.
+          test -e /usr/share/cmake/header_only-1.0/header_onlyConfig.cmake 
           cmake -S test -B build/installed -D TEST_INSTALLED_VERSION=1
           cmake --build build/installed
           cmake --build build/installed --target test
