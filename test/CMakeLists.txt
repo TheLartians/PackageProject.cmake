@@ -10,6 +10,7 @@ project(
 
 if(TEST_INSTALLED_VERSION)
   find_package(dependency 1.2 REQUIRED)
+  find_package(header_only 1.0 REQUIRED)
   find_package(namespaced_dependency 4.5.6 REQUIRED)
   find_package(transitive_dependency 7.8.9 REQUIRED)
 else()
@@ -17,6 +18,7 @@ else()
     set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Foo Bar <foo@bar.local>")
   endif()
   add_subdirectory(dependency)
+  add_subdirectory(header_only)
   add_subdirectory(namespaced_dependency)
   add_subdirectory(transitive_dependency)
 endif()
@@ -24,7 +26,8 @@ endif()
 add_executable(main main.cpp)
 
 target_link_libraries(
-  main dependency ns::namespaced_dependency transitive_dependency::transitive_dependency
+  main dependency header_only ns::namespaced_dependency
+  transitive_dependency::transitive_dependency
 )
 
 enable_testing()

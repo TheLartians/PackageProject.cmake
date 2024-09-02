@@ -115,6 +115,11 @@ function(packageProject)
 
   if(PROJECT_ARCH_INDEPENDENT)
     set(wbpvf_extra_args ARCH_INDEPENDENT)
+    # install to architecture independent (share) directory
+    set(INSTALL_DIR_FOR_CMAKE_CONFIGS ${CMAKE_INSTALL_DATADIR})
+  else()
+    # if x32 or multilib->x32 , install to (lib) directory. if x64, install to (lib64) directory
+    set(INSTALL_DIR_FOR_CMAKE_CONFIGS ${CMAKE_INSTALL_LIBDIR})
   endif()
 
   write_basic_package_version_file(
@@ -141,7 +146,7 @@ function(packageProject)
   )
 
   set("${PROJECT_NAME}_INSTALL_CMAKEDIR"
-      "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}"
+      "${INSTALL_DIR_FOR_CMAKE_CONFIGS}/cmake/${PROJECT_NAME}${PROJECT_VERSION_SUFFIX}"
       CACHE PATH "CMake package config location relative to the install prefix"
   )
 
