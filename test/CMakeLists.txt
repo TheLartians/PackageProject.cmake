@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14...3.22)
+cmake_minimum_required(VERSION 3.14...3.24)
 
 option(TEST_INSTALLED_VERSION "Test the version found by find_package" OFF)
 
@@ -14,9 +14,13 @@ if(TEST_INSTALLED_VERSION)
   find_package(namespaced_dependency 4.5.6 REQUIRED)
   find_package(transitive_dependency 7.8.9 REQUIRED)
 else()
+
+  set(CMAKE_VERIFY_INTERFACE_HEADER_SETS ON)
+
   if(TEST_CPACK)
     set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Foo Bar <foo@bar.local>")
   endif()
+
   add_subdirectory(dependency)
   add_subdirectory(header_only)
   add_subdirectory(namespaced_dependency)

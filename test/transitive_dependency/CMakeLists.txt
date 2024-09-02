@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14...3.22)
+cmake_minimum_required(VERSION 3.14...3.24)
 
 project(
   transitive_dependency
@@ -30,6 +30,15 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 add_library(${PROJECT_NAME} SHARED source/transitive_dependency.cpp)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 target_link_libraries(${PROJECT_NAME} PUBLIC fmt::fmt-header-only cxxopts)
+
+if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.23.0")
+  # required in CMake 3.23 and more
+  set(CMAKE_VERIFY_INTERFACE_HEADER_SETS ON)
+  target_sources(
+    ${PROJECT_NAME} PUBLIC FILE_SET HEADERS BASE_DIRS include FILES
+                           include/transitive_dependency/transitive_dependency.h
+  )
+endif()
 
 target_include_directories(
   transitive_dependency PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
