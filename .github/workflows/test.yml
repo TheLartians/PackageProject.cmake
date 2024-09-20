@@ -28,7 +28,7 @@ jobs:
         uses: jwlawson/actions-setup-cmake@v1.13
         with:
           cmake-version: 3.18.4
-  
+
       - name: test and install local build
         run: |
           cmake -S test -B build/local
@@ -58,7 +58,7 @@ jobs:
         uses: jwlawson/actions-setup-cmake@v1.13
         with:
           cmake-version: 3.18.4
-  
+
       - name: build for packaging
         run: |
           cmake -S test -B build/local -DTEST_CPACK=YES
@@ -68,6 +68,8 @@ jobs:
           cpack -G DEB .
           dpkg -I *deb | grep "Maintainer: Foo Bar <foo@bar.local>"
           sudo -E dpkg -i *.deb
+          echo "Testing existense of libruntime_destination_dependency.a in /usr/lib"
+          test -e /usr/lib/libruntime_destination_dependency.a
 
       - name: test installed build
         run: |
