@@ -58,4 +58,5 @@ parse:
         EXPORT_HEADER: 1
         DISABLE_VERSION_SUFFIX: 1
         CPACK: 1
+        RUNTIME_DESTINATION: 1
         DEPENDENCIES: +

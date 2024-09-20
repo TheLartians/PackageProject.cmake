@@ -4,6 +4,8 @@
 #include <header_only/version.h>
 #include <namespaced_dependency/namespaced_dependency.h>
 #include <namespaced_dependency/version.h>
+#include <runtime_destination_dependency/dependency.h>
+#include <runtime_destination_dependency/version.h>
 #include <transitive_dependency/transitive_dependency.h>
 #include <transitive_dependency/version.h>
 
@@ -13,6 +15,7 @@ int main() {
   dependencyFunction();
   ns::namespacedDependencyFunction();
   transitiveDependencyFunction();
+  runtimeDestinationDependency();
   auto result = true;
   result &= DEPENDENCY_VERSION == std::string("1.2");
   result &= DEPENDENCY_VERSION_MAJOR == 1;
@@ -35,5 +38,10 @@ int main() {
   result &= HEADER_ONLY_VERSION_MINOR == 0;
   result &= HEADER_ONLY_VERSION_PATCH == 0;
   result &= HEADER_ONLY_VERSION_TWEAK == 0;
+  result &= RUNTIME_DESTINATION_DEPENDENCY_VERSION == std::string("1.5");
+  result &= RUNTIME_DESTINATION_DEPENDENCY_VERSION_MAJOR == 1;
+  result &= RUNTIME_DESTINATION_DEPENDENCY_VERSION_MINOR == 5;
+  result &= RUNTIME_DESTINATION_DEPENDENCY_VERSION_PATCH == 0;
+  result &= RUNTIME_DESTINATION_DEPENDENCY_VERSION_TWEAK == 0;
   return result ? 0 : 1;
 }
