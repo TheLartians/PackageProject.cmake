@@ -30,6 +30,10 @@ packageProject(
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
   # (optional) option to install only header files with matching pattern
   INCLUDE_HEADER_PATTERN "*.h"
+  # relative install directory for runtimes: bins, libs, archives 
+  # if omitted, by default libs will be installed to <...>/lib/<packagename-version>/
+  # / - means relative to <...>/lib, i.e. install libs to <...>/lib/, bins to <...>/bin/, etc
+  RUNTIME_DESTINATION /
   # semicolon separated list of the project's dependencies
   DEPENDENCIES "fmt 7.1.3;cxxopts 2.2.0"
   # (optional) create a header containing the version info
