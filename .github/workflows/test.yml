@@ -68,8 +68,8 @@ jobs:
           cpack -G DEB .
           dpkg -I *deb | grep "Maintainer: Foo Bar <foo@bar.local>"
           sudo -E dpkg -i *.deb
-          echo "Testing existense of libruntime_destination_dependency.a in /usr/lib"
-          test -e /usr/lib/libruntime_destination_dependency.a
+      - name: check if we can explicitly set the runtime destination
+      - run: test -e /usr/lib/libruntime_destination_dependency.a
 
       - name: test installed build
         run: |
